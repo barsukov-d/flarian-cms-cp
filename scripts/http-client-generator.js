@@ -6,7 +6,8 @@ const getApiDoc = async () => {
   await generate({
     input: OPEN_API_URL,
     output: 'src/http-client/',
-    useOptions: true
+    useOptions: true,
+	base: 'http://localhost:3030/api'
   })
 }
 
