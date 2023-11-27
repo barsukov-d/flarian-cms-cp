@@ -1,26 +1,29 @@
 <script setup lang="ts">
-import { useQuery } from 'vue-query';
-import { PagesService } from '@/http-client/services/PagesService';
+import { useMutation } from 'vue-query';
+import { ref } from 'vue';
+import { AuthService, type AuthDto } from '@/http-client';
 
-const useTodosQuery = () => {
-	return useQuery('todos', PagesService.pagesControllerFindAll);
+const formData = ref<AuthDto>({
+	login: '',
+	password: '',
+});
+
+function authLogin() {
+	return useMutation(() => AuthService.authControllerLogin({ requestBody: formData.value }));
+}
+
+const onSubmit = () => {
+	mutate(formData.value);
 };
 
-const { isLoading, isError, data, error } = useTodosQuery();
+const { isLoading, isError, error, isSuccess, mutate } = authLogin();
 </script>
 
 <template>
-	<form action="">
-		<input type="text" />
-		<input type="password" />
+	<form action="" @submit.prevent="onSubmit">
+		<input type="text" v-model="formData.login" />
+		<input type="password" v-model="formData.password" />
 
 		<button type="submit">login</button>
 	</form>
-
-	<span v-if="isLoading">Loading...</span>
-	<span v-else-if="isError">Error: {{ error.message }}</span>
-	<!-- We can assume by this point that `isSuccess === true` -->
-	<ul v-else>
-		<li v-for="todo in data" :key="todo.id">{{ todo.title }}</li>
-	</ul>
 </template>
