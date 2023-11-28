@@ -8,14 +8,14 @@ const navMenuItems = ref([
 		link: '/content',
 	},
 	{
-		name: 'Login',
-		icon: 'login',
-		link: '/login',
+		name: 'Pages',
+		icon: 'pages',
+		link: '/pages',
 	},
 	{
-		name: 'Register',
-		icon: 'person_add',
-		link: '/register',
+		name: 'Posts',
+		icon: 'posts',
+		link: '/posts',
 	},
 	{
 		name: 'About',
