@@ -1,93 +1,100 @@
 <script setup lang="ts">
 import { useMutation } from 'vue-query';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { AuthService, type AuthDto } from '@/http-client';
 import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+function authLogin() {
+	return useMutation(() => AuthService.authControllerLogin({ requestBody: formData.value }));
+}
+
+const { isLoading, isError, error, isSuccess, mutate, data } = authLogin();
+
+const $q = useQuasar();
+
+const accept = ref(false);
 
 const formData = ref<AuthDto>({
 	login: '',
 	password: '',
 });
 
-function authLogin() {
-	return useMutation(() => AuthService.authControllerLogin({ requestBody: formData.value }));
-}
-
-// const onSubmit = () => {
-// 	mutate(formData.value);
-// };
-
-const { isLoading, isError, error, isSuccess, mutate } = authLogin();
-
-const $q = useQuasar();
-
-const name = ref(null);
-const age = ref(null);
-const accept = ref(false);
-
 const onSubmit = () => {
-	if (accept.value !== true) {
-		$q.notify({
-			color: 'red-5',
-			textColor: 'white',
-			icon: 'warning',
-			message: 'You need to accept the license and terms first',
-		});
-	} else {
-		$q.notify({
-			color: 'green-4',
-			textColor: 'white',
-			icon: 'cloud_done',
-			message: 'Submitted',
-		});
-	}
+	mutate(formData.value);
 };
 
 const onReset = () => {
-	name.value = null;
-	age.value = null;
+	formData.value.login = '';
+	formData.value.password = '';
 	accept.value = false;
 };
+
+watch(isSuccess, (value) => {
+	if (value) {
+		$q.notify({
+			message: 'Login success',
+			type: 'positive',
+			position: 'top',
+			timeout: 1000,
+		});
+		console.log('isSuccess', value);
+
+		router.push({ name: 'home' });
+	}
+});
+
+watch(isError, (value) => {
+	if (value) {
+		$q.notify({
+			message: 'Login error',
+			type: 'negative',
+			position: 'top',
+			timeout: 1000,
+		});
+		console.log('isError', value);
+	}
+});
+
+watch(data, (value) => {
+	console.log(value, 'dataWatch');
+	if (value.accessToken) {
+		localStorage.setItem('accessToken', value.accessToken);
+	}
+});
 </script>
 
-<!-- <template>
-	<form action="" @submit.prevent="onSubmit">
-		<input type="text" v-model="formData.login" />
-		<input type="password" v-model="formData.password" />
-
-		<QBtn color="white" text-color="black" label="login" type="submit" />
-	</form>
-</template> -->
-
 <template>
-	<div class="q-pa-md" style="max-width: 400px">
+	<div class="q-mb-xl q-pa-md" style="max-width: 400px">
+		<h4 class="text-h4">Login</h4>
 		<QForm @submit="onSubmit" @reset="onReset" class="q-gutter-md">
 			<QInput
 				filled
-				v-model="name"
-				label="Your name *"
-				hint="Name and surname"
+				v-model="formData.login"
+				label="Your login *"
+				hint="login and surlogin"
 				lazy-rules
 				:rules="[(val) => (val && val.length > 0) || 'Please type something']"
 			/>
 
 			<QInput
 				filled
-				type="number"
-				v-model="age"
-				label="Your age *"
+				type="password"
+				v-model="formData.password"
+				label="Your password *"
 				lazy-rules
 				:rules="[
-					(val) => (val !== null && val !== '') || 'Please type your age',
-					(val) => (val > 0 && val < 100) || 'Please type a real age',
+					(val) => (val && val.length > 0) || 'Please type something',
+					// (val) => (val !== null && val !== '') || 'Please type your age',
+					// (val) => (val > 0 && val < 100) || 'Please type a real age',
 				]"
 			/>
 
-			<QToggle v-model="accept" label="I accept the license and terms" />
-
 			<div>
 				<QBtn label="Submit" type="submit" color="primary" />
-				<QBtn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+				<!-- <QBtn label="Reset" type="reset" color="primary" flat class="q-ml-sm" /> -->
 			</div>
 		</QForm>
 	</div>

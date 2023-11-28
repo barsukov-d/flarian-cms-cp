@@ -3,6 +3,8 @@ import { onMounted, ref } from 'vue';
 
 import { RouterView } from 'vue-router';
 
+import NavMenu from '@/components/NavMenu.vue';
+
 const leftDrawerOpen = ref(false);
 
 const toggleLeftDrawer = () => {
@@ -27,6 +29,7 @@ const toggleLeftDrawer = () => {
 
 		<QDrawer v-model="leftDrawerOpen" side="left" bordered>
 			<!-- drawer content -->
+			<NavMenu />
 		</QDrawer>
 
 		<QPageContainer :style="'height: 100vh'">
