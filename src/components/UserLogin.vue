@@ -61,7 +61,8 @@ watch(isError, (value) => {
 watch(data, (value) => {
 	console.log(value, 'dataWatch');
 	if (value.accessToken) {
-		localStorage.setItem('accessToken', value.accessToken);
+		// localStorage.setItem('accessToken', value.accessToken);
+		document.cookie = `jwtToken=${value.accessToken}; path=/;`;
 	}
 });
 </script>

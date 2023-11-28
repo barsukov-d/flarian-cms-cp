@@ -43,4 +43,6 @@ app.mount('#app');
 import { OpenAPI } from '@/http-client';
 
 OpenAPI.BASE = 'http://localhost:3031/api';
-OpenAPI.TOKEN = 'some-bearer-token';
+
+const jwtToken = document.cookie.replace(/(?:(?:^|.*;\s*)jwtToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+OpenAPI.TOKEN = jwtToken;
