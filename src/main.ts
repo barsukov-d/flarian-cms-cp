@@ -44,5 +44,5 @@ import { OpenAPI } from '@/http-client';
 
 OpenAPI.BASE = 'http://localhost:3031/api';
 
-const jwtToken = document.cookie.replace(/(?:(?:^|.*;\s*)jwtToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
-OpenAPI.TOKEN = jwtToken;
+// const jwtToken = document.cookie.replace(/(?:(?:^|.*;\s*)jwtToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+// OpenAPI.TOKEN = jwtToken;

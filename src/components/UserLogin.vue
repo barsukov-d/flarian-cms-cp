@@ -4,6 +4,7 @@ import { ref, watch } from 'vue';
 import { AuthService, type AuthDto } from '@/http-client';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import { OpenAPI } from '@/http-client';
 
 const router = useRouter();
 
@@ -63,6 +64,7 @@ watch(data, (value) => {
 	if (value.accessToken) {
 		// localStorage.setItem('accessToken', value.accessToken);
 		document.cookie = `jwtToken=${value.accessToken}; path=/;`;
+		OpenAPI.TOKEN = value.accessToken || '123';
 	}
 });
 </script>
