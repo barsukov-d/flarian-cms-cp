@@ -36,7 +36,7 @@ const toggleLeftDrawer = () => {
 			<RouterView />
 		</QPageContainer>
 
-		<QFooter elevated class="bg-grey-8 text-white">
+		<!-- <QFooter elevated class="bg-grey-8 text-white">
 			<QToolbar>
 				<QToolbarTitle>
 					<QAvatar>
@@ -44,6 +44,6 @@ const toggleLeftDrawer = () => {
 					</QAvatar>
 				</QToolbarTitle>
 			</QToolbar>
-		</QFooter>
+		</QFooter> -->
 	</QLayout>
 </template>
