@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import UserLogin from '@/components/UserLogin.vue'
+import UserLogin from '@/components/UserLogin.vue';
 </script>
 
 <template>
-  <div>
-    <UserLogin />
-  </div>
+	<div class="login-page">
+		<UserLogin />
+	</div>
 </template>
