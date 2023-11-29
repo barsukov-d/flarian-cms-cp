@@ -129,6 +129,15 @@ const dateTransformer = (isoDate: string) => {
 <template>
 	<div class="posts-page">
 		<h3 class="text-h3">post page</h3>
+		<QBtn
+			color="primary"
+			label="Create post"
+			@click="
+				() => {
+					router.push({ name: 'post-create' });
+				}
+			"
+		/>
 		<div v-if="isLoading">Loading...</div>
 		<div v-else-if="error">An error occurred: {{ error.message }}</div>
 		<div v-else>
