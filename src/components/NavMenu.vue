@@ -3,19 +3,19 @@ import { ref } from 'vue';
 
 const navMenuItems = ref([
 	{
-		name: 'Content',
-		icon: 'content',
-		link: '/content',
-	},
-	{
-		name: 'Pages',
-		icon: 'pages',
-		link: '/pages',
-	},
-	{
 		name: 'Posts',
 		icon: 'posts',
 		link: '/posts',
+	},
+	{
+		name: 'Categories',
+		icon: 'category',
+		link: '/categories',
+	},
+	{
+		name: 'Tags',
+		icon: 'tag',
+		link: '/tags',
 	},
 	{
 		name: 'About',

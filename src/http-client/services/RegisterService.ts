@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AuthDto } from '../models/AuthDto';
-import type { UserModel } from '../models/UserModel';
+import type { User } from '../models/User';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -12,14 +12,14 @@ import { request as __request } from '../core/request';
 export class RegisterService {
 
     /**
-     * @returns UserModel Register user
+     * @returns User Register user
      * @throws ApiError
      */
     public static authControllerRegister({
         requestBody,
     }: {
         requestBody: AuthDto,
-    }): CancelablePromise<UserModel> {
+    }): CancelablePromise<User> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/auth/register',

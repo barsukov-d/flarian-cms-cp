@@ -5,6 +5,10 @@
 
 export type CreatePostDto = {
     title: string;
+    description: string;
     content: string;
+    image: string;
+    categories: string;
+    tags: Array<string>;
 };
 

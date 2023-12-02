@@ -3,8 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type UserModel = {
-    email: string;
-    passwordHash: string;
+export type UpdateTagDto = {
 };
 
