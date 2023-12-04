@@ -5,6 +5,5 @@
 
 export type CreateCategoryDto = {
     name: string;
-    postId: number;
 };
 

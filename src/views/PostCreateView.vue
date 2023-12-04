@@ -1,45 +1,85 @@
 <script setup lang="ts">
-import { useMutation } from 'vue-query';
+import { useMutation, useQuery } from 'vue-query';
 import { PostsService } from '@/http-client/services/PostsService';
 import { useQuasar } from 'quasar';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import { ref } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { CategoriesService } from '@/http-client/services/CategoriesService';
+import { TagsService } from '@/http-client/services/TagsService';
 
-function authLogin() {
-	return useMutation(() => PostsService.postsControllerCreate({ requestBody: form.value }));
-}
+const postCreate = useMutation(() =>
+	PostsService.postsControllerCreate({ requestBody: form.value }),
+);
 
-const { isLoading, isError, error, isSuccess, mutate, data } = authLogin();
+const categoriesFindAll = useQuery('categories', () =>
+	CategoriesService.categoriesControllerFindAll(),
+);
+const categories = ref();
+
+const tagsFindAll = useQuery('tags', () => TagsService.tagsControllerFindAll());
+
+const tags = ref();
 
 const form = ref({
 	title: '',
 	description: '',
 	content: '',
 	image: '',
-	categories: [],
-	tags: [],
+	categoryId: 1,
+	tagIds: [1, 5],
 	publicationStatus: 'draft',
 	author: '',
-	metaTags: [],
-	// permalink: '',
+	metaTags: '',
 });
 
-const optionsCategories = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
+const optionsCategories = computed(() => {
+	if (categoriesFindAll.data.value) {
+		return categoriesFindAll.data.value.map((category: any) => category.name);
+	}
+	return [];
+});
 
-const optionsTags = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
+const optionsTags = computed(() => {
+	if (tagsFindAll.data.value) {
+		return tagsFindAll.data.value.map((tag: any) => tag.name);
+	}
+	return [];
+});
+
+watch(
+	() => categories.value,
+	() => {
+		const category = categoriesFindAll.data.value.find(
+			(category: any) => category.name === categories.value,
+		);
+		if (category) {
+			form.value.categoryId = category.id;
+		}
+	},
+);
+
+watch(
+	() => tags.value,
+	() => {
+		const tagsIds = tagsFindAll.data.value
+			.filter((tag: any) => tags.value.includes(tag.name))
+			.map((tag: any) => tag.id);
+		form.value.tagIds = [1, 5];
+	},
+);
+
 const optionPublicationStatus = ['draft', 'published'];
 const optionMetaTags = ['fes', 'sport', 'hot'];
 
 const onSubmit = () => {
-	mutate(form.value);
+	postCreate.mutate(form.value);
 };
 </script>
 
 <template>
 	<h3 class="text-h3">Post create</h3>
-	<pre>{{ data }}</pre>
-
+	<pre>{{ tagsFindAll.data }}</pre>
 	<div class="q-pa-md" style="max-width: 100%">
 		<QForm @submit="onSubmit" class="q-gutter-md">
 			<QInput
@@ -65,8 +105,7 @@ const onSubmit = () => {
 
 			<QSelect
 				filled
-				v-model="form.categories"
-				multiple
+				v-model="categories"
 				:options="optionsCategories"
 				label="Categories"
 				class="q-mt-xl"
@@ -74,7 +113,7 @@ const onSubmit = () => {
 
 			<QSelect
 				filled
-				v-model="form.tags"
+				v-model="tags"
 				multiple
 				:options="optionsTags"
 				label="Tags"
@@ -106,15 +145,6 @@ const onSubmit = () => {
 				label="Meta tags"
 				class="q-mt-xl"
 			/>
-
-			<!-- <QInput
-				filled
-				v-model="form.permalink"
-				label="Permalink"
-				lazy-rules
-				class="q-mt-xl"
-				:readonly="true"
-			/> -->
 
 			<div class="q-my-xl">
 				<QBtn label="Create" type="submit" color="primary" />

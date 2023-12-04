@@ -8,9 +8,8 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const route = useRoute();
 
-function usePostQuery(id: string) {
-	return useQuery(['post', id], () => PostsService.postsControllerFindOne({ id: id }));
-}
+const usePostQuery = (id: string) =>
+	useQuery(['post', id], () => PostsService.postsControllerFindOne({ id: id }));
 
 const id = route.params.id as string;
 const { isLoading, isError, data, error } = usePostQuery(id);
@@ -19,5 +18,5 @@ const { isLoading, isError, data, error } = usePostQuery(id);
 <template>
 	<div>usePostQuery</div>
 	<pre>{{ data }}</pre>
-	<div v-html="data.content"></div>
+	<div v-html="data?.content"></div>
 </template>

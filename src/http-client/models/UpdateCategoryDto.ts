@@ -5,6 +5,5 @@
 
 export type UpdateCategoryDto = {
     name?: string;
-    postId?: number;
 };
 

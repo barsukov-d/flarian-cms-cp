@@ -8,7 +8,9 @@ export type UpdatePostDto = {
     description?: string;
     content?: string;
     image?: string;
-    categories?: string;
-    tags?: Array<string>;
+    categoryId?: number;
+    publicationStatus?: string;
+    author?: string;
+    metaTags?: string;
 };
 

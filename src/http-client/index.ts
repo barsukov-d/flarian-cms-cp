@@ -19,8 +19,9 @@ export type { UpdateTagDto } from './models/UpdateTagDto';
 export type { User } from './models/User';
 
 export { AuthService } from './services/AuthService';
-export { DefaultService } from './services/DefaultService';
+export { CategoriesService } from './services/CategoriesService';
 export { PagesService } from './services/PagesService';
 export { PostsService } from './services/PostsService';
 export { RegisterService } from './services/RegisterService';
+export { TagsService } from './services/TagsService';
 export { UsersService } from './services/UsersService';

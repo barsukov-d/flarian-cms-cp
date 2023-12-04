@@ -5,9 +5,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-function usePostsQuery() {
-	return useQuery('posts', PostsService.postsControllerFindAll);
-}
+const usePostsQuery = () => useQuery('posts', PostsService.postsControllerFindAll);
 
 const { isLoading, isError, data, error } = usePostsQuery();
 
@@ -128,8 +126,10 @@ const dateTransformer = (isoDate: string) => {
 
 <template>
 	<div class="posts-page">
+		<pre>{{ data }}</pre>
 		<h3 class="text-h3">post page</h3>
 		<QBtn
+			class="q-mb-xl"
 			color="primary"
 			label="Create post"
 			@click="
@@ -141,10 +141,6 @@ const dateTransformer = (isoDate: string) => {
 		<div v-if="isLoading">Loading...</div>
 		<div v-else-if="error">An error occurred: {{ error.message }}</div>
 		<div v-else>
-			<!-- <pre>{{ data }}</pre>
-			<div v-for="post in data" :key="post.id">
-				{{ post.title }}
-			</div> -->
 			<QTable
 				flat
 				bordered
