@@ -126,8 +126,7 @@ const dateTransformer = (isoDate: string) => {
 
 <template>
 	<div class="posts-page">
-		<pre>{{ data }}</pre>
-		<h3 class="text-h3">post page</h3>
+		<h3 class="text-h3">posts</h3>
 		<QBtn
 			class="q-mb-xl"
 			color="primary"

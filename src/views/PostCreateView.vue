@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { useMutation, useQuery } from 'vue-query';
 import { PostsService } from '@/http-client/services/PostsService';
-import { useQuasar } from 'quasar';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { computed, ref, watch } from 'vue';
 import { CategoriesService } from '@/http-client/services/CategoriesService';
 import { TagsService } from '@/http-client/services/TagsService';
 
+import { useRouter } from 'vue-router';
+
 const postCreate = useMutation(() =>
 	PostsService.postsControllerCreate({ requestBody: form.value }),
 );
-
 const categoriesFindAll = useQuery('categories', () =>
 	CategoriesService.categoriesControllerFindAll(),
 );
@@ -27,7 +27,7 @@ const form = ref({
 	content: '',
 	image: '',
 	categoryId: 1,
-	tagIds: [1, 5],
+	tagIds: [],
 	publicationStatus: 'draft',
 	author: '',
 	metaTags: '',
@@ -65,7 +65,7 @@ watch(
 		const tagsIds = tagsFindAll.data.value
 			.filter((tag: any) => tags.value.includes(tag.name))
 			.map((tag: any) => tag.id);
-		form.value.tagIds = [1, 5];
+		form.value.tagIds = tagsIds;
 	},
 );
 
@@ -75,12 +75,22 @@ const optionMetaTags = ['fes', 'sport', 'hot'];
 const onSubmit = () => {
 	postCreate.mutate(form.value);
 };
+
+const router = useRouter();
+watch(
+	() => postCreate.isSuccess,
+	() => {
+		if (postCreate.isSuccess.value) {
+			router.push('/posts');
+		}
+	},
+	{ deep: true },
+);
 </script>
 
 <template>
 	<h3 class="text-h3">Post create</h3>
-	<pre>{{ tagsFindAll.data }}</pre>
-	<div class="q-pa-md" style="max-width: 100%">
+	<div style="max-width: 100%">
 		<QForm @submit="onSubmit" class="q-gutter-md">
 			<QInput
 				filled
@@ -146,9 +156,7 @@ const onSubmit = () => {
 				class="q-mt-xl"
 			/>
 
-			<div class="q-my-xl">
-				<QBtn label="Create" type="submit" color="primary" />
-			</div>
+			<QBtn class="q-my-xl" label="Create" type="submit" color="primary" />
 		</QForm>
 	</div>
 </template>

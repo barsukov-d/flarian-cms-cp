@@ -3,7 +3,6 @@ import { useQuery } from 'vue-query';
 import { PostsService } from '@/http-client/services/PostsService';
 import { useRoute } from 'vue-router';
 
-import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const route = useRoute();
