@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { useMutation, useQuery } from 'vue-query';
 import { PostsService } from '@/http-client/services/PostsService';
-import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import { computed, ref, watchEffect } from 'vue';
+import { ref, watch } from 'vue';
 import { useCategory } from '@/hooks/useCategory';
 import { useTag } from '@/hooks/useTag';
 import FormPost from '@/components/FormPost.vue';
@@ -60,6 +59,17 @@ const onSubmit = (data: any) => {
 	prepareData(data);
 	postCreate.mutate();
 };
+
+const router = useRouter();
+
+watch(
+	() => postCreate.isSuccess,
+	() => {
+		if (postCreate.isSuccess) {
+			router.push('/posts');
+		}
+	},
+);
 </script>
 
 <template>
