@@ -5,6 +5,13 @@
 
 export type UpdatePostDto = {
     title?: string;
+    description?: string;
     content?: string;
+    image?: string;
+    categoryId?: number;
+    tagIds?: Array<number>;
+    publicationStatus?: string;
+    author?: string;
+    metaTags?: string;
 };
 

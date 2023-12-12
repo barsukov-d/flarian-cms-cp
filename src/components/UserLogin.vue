@@ -41,7 +41,6 @@ watch(isSuccess, (value) => {
 			position: 'top',
 			timeout: 1000,
 		});
-		console.log('isSuccess', value);
 
 		router.push({ name: 'home' });
 	}
@@ -55,12 +54,10 @@ watch(isError, (value) => {
 			position: 'top',
 			timeout: 1000,
 		});
-		console.log('isError', value);
 	}
 });
 
 watch(data, (value) => {
-	console.log(value, 'dataWatch');
 	if (value.accessToken) {
 		// localStorage.setItem('accessToken', value.accessToken);
 		document.cookie = `jwtToken=${value.accessToken}; path=/;`;

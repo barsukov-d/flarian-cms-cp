@@ -25,6 +25,44 @@ const router = createRouter({
 			component: () => import('../views/PostView.vue'),
 		},
 		{
+			path: '/post/create',
+			name: 'post-create',
+			component: () => import('../views/PostCreateView.vue'),
+		},
+
+		{
+			path: '/categories',
+			name: 'categories',
+			component: () => import('../views/CategoriesView.vue'),
+		},
+		{
+			path: '/category/:id',
+			name: 'category',
+			component: () => import('../views/CategoryView.vue'),
+		},
+		{
+			path: '/category/create',
+			name: 'category-create',
+			component: () => import('../views/CategoryCreateView.vue'),
+		},
+
+		{
+			path: '/tags',
+			name: 'tags',
+			component: () => import('../views/TagsView.vue'),
+		},
+		{
+			path: '/tag/:id',
+			name: 'tag',
+			component: () => import('../views/TagView.vue'),
+		},
+		{
+			path: '/tag/create',
+			name: 'tag-create',
+			component: () => import('../views/TagCreateView.vue'),
+		},
+
+		{
 			path: '/about',
 			name: 'about',
 			component: () => import('../views/AboutView.vue'),
