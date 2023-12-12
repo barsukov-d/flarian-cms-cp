@@ -3,12 +3,13 @@ import { type QTableColumn } from 'quasar';
 import { useQuery } from 'vue-query';
 import { PostsService } from '@/http-client/services/PostsService';
 import { useRouter } from 'vue-router';
+import { watch } from 'vue';
 
 const router = useRouter();
 
 const usePostsQuery = () => useQuery('posts', PostsService.postsControllerFindAll);
 
-const { isLoading, isError, data, error } = usePostsQuery();
+const { isLoading, isError, data, error, isSuccess } = usePostsQuery();
 
 const columns: QTableColumn[] = [
 	{
@@ -45,6 +46,16 @@ const dateTransformer = (isoDate: string) => {
 
 	return formattedDate;
 };
+
+watch(
+	() => isSuccess,
+	() => {
+		if (isSuccess) {
+			// console.log(data.value, 'data-posts');
+		}
+	},
+	{ deep: true },
+);
 </script>
 
 <template>
@@ -72,7 +83,6 @@ const dateTransformer = (isoDate: string) => {
 				row-key="name"
 				@row-click="
 					(e, row, index) => {
-						console.log('row-click', e, row, index);
 						router.push({ name: 'post', params: { id: row.id } });
 					}
 				"

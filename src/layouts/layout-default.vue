@@ -5,7 +5,7 @@ import { RouterView } from 'vue-router';
 
 import NavMenu from '@/components/NavMenu.vue';
 
-const leftDrawerOpen = ref(false);
+const leftDrawerOpen = ref(true);
 
 const toggleLeftDrawer = () => {
 	leftDrawerOpen.value = !leftDrawerOpen.value;

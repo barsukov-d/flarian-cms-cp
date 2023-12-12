@@ -11,11 +11,12 @@ export const useGetPostById = () => {
 		useQuery(['post', id], () => PostsService.postsControllerFindOne({ id: id }));
 
 	const id = route.params.id as string;
-	const { isLoading, isError, data, error } = usePostQuery(id);
+	const { isLoading, isError, data, error, isSuccess } = usePostQuery(id);
 
 	return {
 		isLoading,
 		isError,
+		isSuccess,
 		data,
 		error,
 	};

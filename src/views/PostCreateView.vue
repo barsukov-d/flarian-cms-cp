@@ -13,8 +13,8 @@ const { optionsCategories, getCategoryIdByName } = useCategory();
 const { optionsTags, getTagsIdByNames } = useTag();
 
 const formData = ref({
-	title: '111',
-	description: '222',
+	title: '',
+	description: '',
 	content: '',
 	image: '',
 	optionsCategories: optionsCategories,
@@ -23,7 +23,7 @@ const formData = ref({
 	tagsName: [],
 	optionsPublicationStatus: ['draft', 'published'],
 	publicationStatus: '',
-	author: 'Dima',
+	author: '',
 	metaTags: '',
 });
 
@@ -65,17 +65,19 @@ const router = useRouter();
 watch(
 	() => postCreate.isSuccess,
 	() => {
-		if (postCreate.isSuccess) {
-			router.push('/posts');
+		if (!postCreate.isSuccess) {
+			return;
 		}
+
+		router.push('/posts');
 	},
+	{ deep: true },
 );
 </script>
 
 <template>
 	<h3 class="text-h3">Post create</h3>
-
 	<div style="max-width: 100%">
-		<FormPost :form="formData" @submit="onSubmit" />
+		<FormPost :form="formData" @submit="onSubmit" :buttonName="'Create'" />
 	</div>
 </template>

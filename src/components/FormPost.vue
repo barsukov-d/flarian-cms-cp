@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CreatePostDto } from '@/http-client/models/CreatePostDto';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch, watchEffect } from 'vue';
 import { QuillEditor } from '@vueup/vue-quill';
 
 const props = defineProps<{
@@ -18,6 +18,12 @@ const props = defineProps<{
 		author: string;
 		metaTags: string;
 	};
+	isSuccess?: boolean;
+	buttonName?: string;
+}>();
+
+const emit = defineEmits<{
+	(e: 'submit', requestData: any): void;
 }>();
 
 const formModel = ref({
@@ -36,18 +42,24 @@ const formModel = ref({
 });
 
 watch(
-	() => props.form,
+	() => props.isSuccess,
 	() => {
-		if (props.form) {
-			formModel.value = props.form;
-		}
+		if (!props.form) return;
+		formModel.value.title = props.form.title;
+		formModel.value.description = props.form.description;
+		formModel.value.content = props.form.content;
+		formModel.value.image = props.form.image;
+		formModel.value.optionsCategories = props.form.optionsCategories;
+		formModel.value.categoryName = props.form.categoryName;
+		formModel.value.optionsTags = props.form.optionsTags;
+		formModel.value.tagsName = props.form.tagsName;
+		formModel.value.optionsPublicationStatus = props.form.optionsPublicationStatus;
+		formModel.value.publicationStatus = props.form.publicationStatus;
+		formModel.value.author = props.form.author;
+		formModel.value.metaTags = props.form.metaTags;
 	},
 	{ deep: true, immediate: true },
 );
-
-const emit = defineEmits<{
-	(e: 'submit', requestData: any): void;
-}>();
 
 const onSubmit = () => {
 	emit('submit', formModel.value);
@@ -120,7 +132,7 @@ const onSubmit = () => {
 				class="q-mt-xl"
 			/>
 
-			<QBtn class="q-my-xl" label="Create" type="submit" color="primary" />
+			<QBtn class="q-my-xl" :label="props.buttonName" type="submit" color="primary" />
 		</QForm>
 	</div>
 </template>
