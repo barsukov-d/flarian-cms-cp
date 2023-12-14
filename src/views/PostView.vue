@@ -15,10 +15,6 @@ const { optionsTags, getTagsIdByNames } = useTag();
 
 const { data, isSuccess, isLoading } = useGetPostById();
 
-onMounted(() => {
-	console.log(data.value, 'data-post-onMounted');
-});
-
 let formData = {
 	title: '',
 	description: '',
