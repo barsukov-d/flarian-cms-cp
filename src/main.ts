@@ -1,7 +1,7 @@
 import './assets/main.css';
 
 import { createApp } from 'vue';
-import { Quasar, Notify } from 'quasar';
+import { Quasar, Notify, Dialog } from 'quasar';
 import { createPinia } from 'pinia';
 
 import App from './App.vue';
@@ -24,6 +24,7 @@ app.use(VueQueryPlugin);
 app.use(Quasar, {
 	plugins: {
 		Notify,
+		Dialog,
 	}, // import Quasar plugins and add here
 
 	config: {

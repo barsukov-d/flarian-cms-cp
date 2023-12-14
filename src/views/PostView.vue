@@ -8,6 +8,7 @@ import type { UpdatePostDto } from '@/http-client/models/UpdatePostDto';
 import { useMutation } from 'vue-query';
 import { PostsService } from '@/http-client/services/PostsService';
 import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
 
 const { optionsCategories, getCategoryIdByName } = useCategory();
 const { optionsTags, getTagsIdByNames } = useTag();
@@ -33,8 +34,6 @@ watch(
 	() => data.value,
 	() => {
 		if (data.value) {
-			console.log(data.value, 'data-post');
-
 			formData.title = data.value.title;
 			formData.description = data.value.description;
 			formData.content = data.value.content;
@@ -47,6 +46,8 @@ watch(
 			formData.publicationStatus = data.value.publicationStatus;
 			formData.author = data.value.author;
 			formData.metaTags = data.value.metaTags;
+
+			console.log(data.value, 'data-post');
 		}
 	},
 	{ deep: true, immediate: true },
@@ -98,9 +99,33 @@ watch(
 		}
 	},
 );
+
+const $q = useQuasar();
+
+const handleDeletePost = () => {
+	$q.dialog({
+		title: 'Confirm',
+		message: 'Would you like to delete post?',
+		cancel: true,
+		persistent: true,
+	})
+		.onOk(() => {
+			PostsService.postsControllerRemove({ id: data.value.id });
+			router.push('/posts');
+		})
+		.onCancel(() => {
+			// console.log('>>>> Cancel')
+		})
+		.onDismiss(() => {
+			// console.log('I am triggered on both OK and Cancel')
+		});
+};
 </script>
 
 <template>
 	<h3 class="text-h3">Post</h3>
+
 	<FormPost :form="formData" @submit="onSubmit" :isSuccess="isSuccess" :buttonName="'Update'" />
+
+	<QBtn class="q-mb-xl" color="negative" label="Delete" @click="handleDeletePost"> </QBtn>
 </template>
