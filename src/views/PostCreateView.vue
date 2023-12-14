@@ -77,7 +77,6 @@ watch(
 
 <template>
 	<h3 class="text-h3">Post create</h3>
-
 	<div style="max-width: 100%">
 		<FormPost :form="formData" @submit="onSubmit" :buttonName="'Create'" />
 	</div>
