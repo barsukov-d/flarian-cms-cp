@@ -17,15 +17,26 @@ const formData = ref({
 	description: '',
 	content: '',
 	image: '',
-	optionsCategories: optionsCategories,
+	optionsCategories: [] as string[],
 	categoryName: '',
-	optionsTags: optionsTags,
-	tagsName: [],
+	optionsTags: [] as string[],
+	tagsName: [] as string[],
 	optionsPublicationStatus: ['draft', 'published'],
 	publicationStatus: '',
 	author: '',
 	metaTags: '',
 });
+
+watch(
+	() => optionsCategories,
+	() => {
+		if (optionsTags && optionsCategories) {
+			formData.value.optionsCategories = optionsCategories.value;
+			formData.value.optionsTags = optionsTags.value;
+		}
+	},
+	{ deep: true, immediate: true },
+);
 
 const requestData: CreatePostDto = {
 	title: '',

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { CategoriesService } from '@/http-client/services/CategoriesService';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useMutation } from 'vue-query';
+import { useRouter } from 'vue-router';
 
 const form = ref({
 	name: '',
@@ -18,6 +19,18 @@ const { isLoading, isError, error, isSuccess, mutate, data } = categoryCreate();
 const onSubmit = () => {
 	mutate(form.value);
 };
+
+const router = useRouter();
+
+watch(
+	() => isSuccess,
+	() => {
+		if (isSuccess) {
+			router.push({ name: 'categories' });
+		}
+	},
+	{ deep: true },
+);
 </script>
 
 <template>

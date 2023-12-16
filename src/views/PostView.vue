@@ -15,37 +15,37 @@ const { optionsTags, getTagsIdByNames } = useTag();
 
 const { data, isSuccess, isLoading } = useGetPostById();
 
-let formData = {
+const formData = ref({
 	title: '',
 	description: '',
 	content: '',
 	image: '',
-	optionsCategories: ['cedsvfd '] as string[],
+	optionsCategories: [] as string[],
 	categoryName: '',
-	optionsTags: ['ssdc'] as string[],
+	optionsTags: [] as string[],
 	tagsName: [] as string[],
 	optionsPublicationStatus: ['draft', 'published'],
 	publicationStatus: '',
 	author: '',
 	metaTags: '',
-};
+});
 
 watch(
 	() => data.value,
 	() => {
 		if (data.value) {
-			formData.title = data.value.title;
-			formData.description = data.value.description;
-			formData.content = data.value.content;
-			formData.image = data.value.image;
-			formData.optionsCategories = optionsCategories.value;
-			formData.categoryName = data.value.category.name;
-			formData.optionsTags = optionsTags.value;
-			formData.tagsName = data.value.tags.map((tag: any) => tag.name);
-			formData.optionsPublicationStatus = ['draft', 'published'];
-			formData.publicationStatus = data.value.publicationStatus;
-			formData.author = data.value.author;
-			formData.metaTags = data.value.metaTags;
+			formData.value.title = data.value.title;
+			formData.value.description = data.value.description;
+			formData.value.content = data.value.content;
+			formData.value.image = data.value.image;
+			formData.value.optionsCategories = optionsCategories.value;
+			formData.value.categoryName = data.value.category.name;
+			formData.value.optionsTags = optionsTags.value;
+			formData.value.tagsName = data.value.tags.map((tag: any) => tag.name);
+			formData.value.optionsPublicationStatus = ['draft', 'published'];
+			formData.value.publicationStatus = data.value.publicationStatus;
+			formData.value.author = data.value.author;
+			formData.value.metaTags = data.value.metaTags;
 
 			console.log(data.value, 'data-post');
 		}
@@ -125,7 +125,7 @@ const handleDeletePost = () => {
 <template>
 	<h3 class="text-h3">Post</h3>
 
-	<FormPost :form="formData" @submit="onSubmit" :isSuccess="isSuccess" :buttonName="'Update'" />
+	<FormPost :form="formData" @submit="onSubmit" :buttonName="'Update'" />
 
 	<QBtn class="q-mb-xl" color="negative" label="Delete" @click="handleDeletePost"> </QBtn>
 </template>

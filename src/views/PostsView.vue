@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { type QTableColumn } from 'quasar';
+import { type QTableColumn, QBtn, QTable } from 'quasar';
 import { useQuery } from 'vue-query';
 import { PostsService } from '@/http-client/services/PostsService';
 import { useRouter } from 'vue-router';
 import { watch } from 'vue';
 
+import { dateTransformer } from '@/shared/helpers/date-transformer';
+
 const router = useRouter();
 
 const usePostsQuery = () => useQuery('posts', PostsService.postsControllerFindAll);
 
-const { isLoading, isError, data, error, isSuccess } = usePostsQuery();
+const { isLoading, data, error, isSuccess } = usePostsQuery();
 
 const columns: QTableColumn[] = [
 	{
@@ -31,21 +33,6 @@ const columns: QTableColumn[] = [
 		align: 'left',
 	},
 ];
-
-const dateTransformer = (isoDate: string) => {
-	const date = new Date(isoDate);
-
-	const year = date.getFullYear();
-	const month = date.getMonth() + 1; // Months are 0-indexed in JavaScript
-	const day = date.getDate();
-	const hours = date.getHours();
-	const minutes = date.getMinutes();
-	const seconds = date.getSeconds();
-
-	const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}`;
-
-	return formattedDate;
-};
 
 watch(
 	() => isSuccess,
