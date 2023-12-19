@@ -42,7 +42,7 @@ const formModel = ref({
 });
 
 watch(
-	() => props.isSuccess,
+	() => props.form,
 	() => {
 		if (!props.form) return;
 		formModel.value.title = props.form.title;
