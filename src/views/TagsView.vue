@@ -41,7 +41,7 @@ const columns: QTableColumn[] = [
 		label="Create tag"
 		@click="
 			() => {
-				router.push({ name: 'category-tag' });
+				router.push({ name: 'tag-create' });
 			}
 		"
 	/>
