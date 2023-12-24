@@ -18,9 +18,9 @@ const navMenuItems = ref([
 		link: '/tags',
 	},
 	{
-		name: 'About',
+		name: 'Media library',
 		icon: 'info',
-		link: '/about',
+		link: '/media-library',
 	},
 ]);
 </script>

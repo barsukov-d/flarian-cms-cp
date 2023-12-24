@@ -12,6 +12,7 @@ export type { CreateCategoryDto } from './models/CreateCategoryDto';
 export type { CreatePageDto } from './models/CreatePageDto';
 export type { CreatePostDto } from './models/CreatePostDto';
 export type { CreateTagDto } from './models/CreateTagDto';
+export type { FilesUploadDto } from './models/FilesUploadDto';
 export type { UpdateCategoryDto } from './models/UpdateCategoryDto';
 export type { UpdatePageDto } from './models/UpdatePageDto';
 export type { UpdatePostDto } from './models/UpdatePostDto';
@@ -20,6 +21,7 @@ export type { User } from './models/User';
 
 export { AuthService } from './services/AuthService';
 export { CategoriesService } from './services/CategoriesService';
+export { FilesService } from './services/FilesService';
 export { PagesService } from './services/PagesService';
 export { PostsService } from './services/PostsService';
 export { RegisterService } from './services/RegisterService';
