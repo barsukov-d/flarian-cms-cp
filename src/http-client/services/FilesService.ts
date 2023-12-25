@@ -52,4 +52,22 @@ export class FilesService {
         });
     }
 
+    /**
+     * @returns any
+     * @throws ApiError
+     */
+    public static filesControllerRemove({
+        id,
+    }: {
+        id: string,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/files/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
 }

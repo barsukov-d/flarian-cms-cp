@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { QFile, QIcon } from 'quasar';
-import { useMutation, useQuery } from 'vue-query';
+import { QFile, QIcon, QBtn } from 'quasar';
+import { useMutation, useQuery, useQueryClient } from 'vue-query';
 import { FilesService } from '@/http-client/services/FilesService';
 import type { FilesUploadDto } from '@/http-client/models/FilesUploadDto';
+
 const model = ref<FileList | null>(null);
 
 let filesUpload: FilesUploadDto = {
 	files: [],
 };
 
-watch(model, (value) => {
+watch(model, () => {
 	if (!model.value) return;
 
 	const files: Array<Blob> = Array.from(model.value).map((file) => {
@@ -28,21 +29,25 @@ const onSubmit = () => {
 	uploadFiles.mutate();
 };
 
-const { data, isLoading, isError, error } = useQuery(
-	'inages',
-	FilesService.filesControllerGetAllFilesByWebP,
-);
+watch(uploadFiles.isSuccess, () => {
+	if (uploadFiles.isSuccess.value) {
+		queryClient.invalidateQueries('images');
+	}
+});
+
+const imagesQuery = useQuery('images', FilesService.filesControllerGetAllFilesByWebP);
 
 export type SelectedImages = {
 	id: string;
 	name: string;
 	url: string;
 	checkChoose: boolean;
+	fileUuid: string;
 };
 
 const selectedImages = ref<SelectedImages[]>([]);
 
-const onSelected = (id: string, name: string, url: string) => {
+const onSelected = (id: string, name: string, url: string, fileUuid: string) => {
 	if (selectedImages.value.find((item) => item.id === id)) {
 		selectedImages.value = selectedImages.value.filter((item) => item.id !== id);
 		return;
@@ -52,6 +57,7 @@ const onSelected = (id: string, name: string, url: string) => {
 		name,
 		url,
 		checkChoose: true,
+		fileUuid,
 	});
 };
 
@@ -61,17 +67,34 @@ const checkChoose = (id: string) => {
 
 const dataImages = ref<SelectedImages[]>([]);
 
-watch(data, () => {
-	if (!data.value) return;
+watch(imagesQuery.data, () => {
+	if (!imagesQuery.data.value) return;
 
-	dataImages.value = data.value.map((item: any) => {
+	dataImages.value = imagesQuery.data.value.map((item: any) => {
 		return {
 			id: item.id,
 			name: item.name,
 			url: item.url,
 			checkChoose: checkChoose(item.id),
+			fileUuid: item.fileUuid,
 		};
 	});
+});
+
+const removeFile = useMutation((fileUuid: string) =>
+	FilesService.filesControllerRemove({ id: fileUuid }),
+);
+
+const handlerFileRemove = (fileUuid: string) => {
+	removeFile.mutate(fileUuid);
+};
+
+const queryClient = useQueryClient();
+
+watch(removeFile.isSuccess, () => {
+	if (removeFile.isSuccess.value) {
+		queryClient.invalidateQueries('images');
+	}
 });
 </script>
 
@@ -90,15 +113,14 @@ watch(data, () => {
 			<span>{{ item.id }}</span>
 			<QCheckbox
 				v-model="item.checkChoose"
-				@click="onSelected(item.id, item.name, item.url)"
+				@click="onSelected(item.id, item.name, item.url, item.fileUuid)"
 			/>
 			<span>Choose</span>
 			<span>{{ item.name }}</span>
 			<span>/</span>
 			<span>{{ item.name }}</span>
+			<QBtn color="primary" label="Delete" @click="handlerFileRemove(item.fileUuid)"></QBtn>
 			<img style="display: block" :src="`http://localhost:3031/static/${item.url}`" alt="" />
 		</div>
-
-		<pre>{{ data }}</pre>
 	</div>
 </template>
