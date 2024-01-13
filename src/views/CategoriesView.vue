@@ -38,7 +38,7 @@ const { isLoading, isError, data, error } = useCategoriesQuery();
 </script>
 
 <template>
-	<h3 class="h3-text">categories page</h3>
+	<h3 class="h3-text">Categories</h3>
 
 	<QBtn
 		class="q-mb-xl"

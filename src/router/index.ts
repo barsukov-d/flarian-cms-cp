@@ -63,9 +63,9 @@ const router = createRouter({
 		},
 
 		{
-			path: '/about',
-			name: 'about',
-			component: () => import('../views/AboutView.vue'),
+			path: '/media-library',
+			name: 'media-library',
+			component: () => import('../views/MediaLibraryView.vue'),
 		},
 	],
 });
