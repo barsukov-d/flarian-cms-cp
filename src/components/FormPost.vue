@@ -3,6 +3,10 @@ import type { CreatePostDto } from '@/http-client/models/CreatePostDto';
 import { onMounted, ref, watch, watchEffect } from 'vue';
 import { QuillEditor } from '@vueup/vue-quill';
 
+import { useMutation, useQuery, useQueryClient } from 'vue-query';
+import type { SelectedImages } from '@/views/MediaLibraryView.vue';
+import { FilesService } from '@/http-client/services/FilesService';
+
 const props = defineProps<{
 	form?: {
 		title: string;
@@ -61,6 +65,48 @@ watch(
 	{ deep: true, immediate: true },
 );
 
+const selectedImages = ref<SelectedImages[]>([]);
+
+const onSelected = (id: string, name: string, url: string, fileUuid: string) => {
+	if (selectedImages.value.find((item) => item.id === id)) {
+		selectedImages.value = selectedImages.value.filter((item) => item.id !== id);
+		return;
+	}
+	selectedImages.value.push({
+		id,
+		name,
+		url,
+		checkChoose: true,
+		fileUuid,
+	});
+};
+
+const dataImages = ref<SelectedImages[]>([]);
+
+const imagesQuery = useQuery('images', FilesService.filesControllerGetAllFilesByWebP);
+
+const checkChoose = (id: string) => {
+	return !!selectedImages.value.find((item) => item.id === id);
+};
+
+const handlerSelectImage = (url: string) => {
+	formModel.value.image = url;
+};
+
+watch(imagesQuery.data, () => {
+	if (!imagesQuery.data.value) return;
+
+	dataImages.value = imagesQuery.data.value.map((item: any) => {
+		return {
+			id: item.id,
+			name: item.name,
+			url: item.url,
+			checkChoose: checkChoose(item.id),
+			fileUuid: item.fileUuid,
+		};
+	});
+});
+
 const onSubmit = () => {
 	emit('submit', formModel.value);
 };
@@ -84,6 +130,38 @@ const onSubmit = () => {
 				lazy-rules
 				:rules="[(val) => (val && val.length > 0) || 'Please type your age']"
 			/>
+
+			<div>
+				<h6 class="text-h6 q-my-sm">Selected Image</h6>
+
+				<QImg
+					:src="`http://localhost:3031/static/${formModel.image}`"
+					spinner-color="white"
+					style="height: 200px; max-width: 200px"
+					fit="contain"
+				/>
+
+				<h6 class="text-h6 q-my-sm">Image List</h6>
+
+				<div v-for="(item, index) in dataImages" :key="index">
+					<span>{{ item.id }}</span>
+					/
+					<span>{{ item.name }}</span>
+
+					<QBtn
+						color="primary"
+						label="Select"
+						@click="handlerSelectImage(item.url)"
+						class="q-ml-md"
+					></QBtn>
+					<QImg
+						:src="`http://localhost:3031/static/${item.url}`"
+						spinner-color="white"
+						style="height: 200px; max-width: 200px; display: block"
+						fit="contain"
+					/>
+				</div>
+			</div>
 
 			<div>
 				<h6 class="text-h6 q-my-sm">Content editor</h6>
