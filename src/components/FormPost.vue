@@ -154,12 +154,12 @@ const onSubmit = () => {
 						@click="handlerSelectImage(item.url)"
 						class="q-ml-md"
 					></QBtn>
-					<QImg
-						:src="`http://localhost:3031/static/${item.url}`"
-						spinner-color="white"
-						style="height: 200px; max-width: 200px; display: block"
-						fit="contain"
-					/>
+								<QImg
+									:src="`http://localhost:3031/static/${item.url}`"
+									spinner-color="white"
+									style="height: 200px; max-width: 200px; display: block"
+									fit="contain"
+								/>
 				</div>
 			</div>
 
