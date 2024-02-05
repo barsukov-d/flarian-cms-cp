@@ -120,7 +120,11 @@ watch(removeFile.isSuccess, () => {
 			<span>/</span>
 			<span>{{ item.name }}</span>
 			<QBtn color="primary" label="Delete" @click="handlerFileRemove(item.fileUuid)"></QBtn>
-			<img style="display: block" :src="`http://localhost:3031/static/${item.url}`" alt="" />
+			<img
+				style="display: block"
+				:src="`http://sky-web.site:3031/static/${item.url}`"
+				alt=""
+			/>
 		</div>
 	</div>
 </template>
