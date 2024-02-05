@@ -135,7 +135,7 @@ const onSubmit = () => {
 				<h6 class="text-h6 q-my-sm">Selected Image</h6>
 
 				<QImg
-					:src="`http://localhost:3031/static/${formModel.image}`"
+					:src="`http://sky-web.site:3031/static/${formModel.image}`"
 					spinner-color="white"
 					style="height: 200px; max-width: 200px"
 					fit="contain"
@@ -154,12 +154,12 @@ const onSubmit = () => {
 						@click="handlerSelectImage(item.url)"
 						class="q-ml-md"
 					></QBtn>
-								<QImg
-									:src="`http://localhost:3031/static/${item.url}`"
-									spinner-color="white"
-									style="height: 200px; max-width: 200px; display: block"
-									fit="contain"
-								/>
+					<QImg
+						:src="`http://sky-web.site/static/${item.url}`"
+						spinner-color="white"
+						style="height: 200px; max-width: 200px; display: block"
+						fit="contain"
+					/>
 				</div>
 			</div>
 
