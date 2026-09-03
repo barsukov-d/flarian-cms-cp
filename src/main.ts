@@ -42,8 +42,13 @@ app.use(Quasar, {
 app.mount('#app');
 
 import { OpenAPI } from '@/http-client';
+import { setupMockApi } from '@/mocks';
 
 OpenAPI.BASE = 'http://sky-web.site:3031/api';
+
+if (import.meta.env.VITE_MOCK_API === 'true') {
+	setupMockApi();
+}
 
 // const jwtToken = document.cookie.replace(/(?:(?:^|.*;\s*)jwtToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
 // OpenAPI.TOKEN = jwtToken;
