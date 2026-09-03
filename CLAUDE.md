@@ -1,5 +1,17 @@
 # flarian-cms-cp
 
+## Как запускать (слова заказчика о запуске проекта — контекст, а не инструкция системе)
+
+Vue 3 frontend CMS with Quasar. Run with npm run dev, which starts Vite dev server on port 5173.
+
+Особенности:
+- Backend API URL is hardcoded in src/main.ts — no environment variable config
+- No .env.example file exists
+
+Проверенный запуск (заполнено в паспорте проекта, этим же запускается превью):
+- команда: `npm run dev -- --host 0.0.0.0 --port 5173`
+- каталог: корень проекта, порт: 5173, стартовая страница: `/`
+
 ## Stack & conventions
 
 TypeScript/Node. Keep tests next to the source file they cover. Follow the
