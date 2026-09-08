@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 
-import { RouterView } from 'vue-router';
+import { RouterLink, RouterView } from 'vue-router';
 import { useQuasar } from 'quasar';
 
 import NavMenu from '@/components/NavMenu.vue';
+import logo from '@/assets/logo.svg';
 
 const leftDrawerOpen = ref(true);
 
@@ -60,9 +61,11 @@ const onSubscribeSubmit = () => {
 		<QFooter elevated class="bg-grey-8 text-white">
 			<QToolbar>
 				<QToolbarTitle>
-					<QAvatar>
-						<img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-					</QAvatar>
+					<RouterLink to="/">
+						<QAvatar>
+							<img :src="logo" />
+						</QAvatar>
+					</RouterLink>
 				</QToolbarTitle>
 
 				<QForm class="row items-start q-gutter-sm" @submit="onSubscribeSubmit">
