@@ -67,6 +67,12 @@ const router = createRouter({
 			name: 'media-library',
 			component: () => import('../views/MediaLibraryView.vue'),
 		},
+
+		{
+			path: '/profile',
+			name: 'profile',
+			component: () => import('../views/ProfileView.vue'),
+		},
 	],
 });
 
