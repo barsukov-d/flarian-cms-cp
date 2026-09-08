@@ -57,30 +57,49 @@ const onSubscribeSubmit = () => {
 			<RouterView />
 		</QPageContainer>
 
-		<QFooter elevated class="bg-grey-8 text-white">
-			<QToolbar>
-				<QToolbarTitle>
-					<QAvatar>
-						<img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-					</QAvatar>
-				</QToolbarTitle>
-
-				<QForm class="row items-start q-gutter-sm" @submit="onSubscribeSubmit">
-					<QInput
-						dark
-						dense
-						filled
-						type="email"
-						v-model="subscribeEmail"
-						label="Subscribe to our newsletter"
-						style="min-width: 260px"
-						lazy-rules
-						:rules="emailRules"
+		<QFooter elevated class="bg-grey-9 text-white">
+			<div class="row items-stretch">
+				<div class="col-12 col-sm-4">
+					<QImg
+						src="https://cdn.quasar.dev/img/parallax2.jpg"
+						style="height: 220px"
+						ratio="16/9"
 					/>
+				</div>
 
-					<QBtn label="Subscribe" type="submit" color="primary" />
-				</QForm>
-			</QToolbar>
+				<div class="col-12 col-sm-8 q-pa-lg">
+					<div class="row items-center q-mb-md">
+						<QAvatar size="40px" class="q-mr-sm">
+							<img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+						</QAvatar>
+						<div class="text-h6">Title</div>
+					</div>
+
+					<div class="text-body2 q-mb-md" style="max-width: 480px">
+						Stay up to date with our latest news — subscribe to our newsletter.
+					</div>
+
+					<QForm class="row items-start q-gutter-sm" @submit="onSubscribeSubmit">
+						<QInput
+							dark
+							dense
+							filled
+							type="email"
+							v-model="subscribeEmail"
+							label="Subscribe to our newsletter"
+							style="min-width: 260px"
+							lazy-rules
+							:rules="emailRules"
+						/>
+
+						<QBtn label="Subscribe" type="submit" color="primary" />
+					</QForm>
+				</div>
+			</div>
+
+			<QSeparator dark />
+
+			<div class="row justify-center items-center q-pa-sm text-caption">Title — all rights reserved.</div>
 		</QFooter>
 	</QLayout>
 </template>
