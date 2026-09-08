@@ -8,7 +8,7 @@ test('footer logo uses local asset and is clickable', async ({ page }) => {
   await page.waitForTimeout(1000);
   
   // Check footer logo src attribute
-  const footerImg = page.locator('footer img');
+  const footerImg = page.locator('footer a[href="/"] img');
   await expect(footerImg).toBeVisible();
   
   const src = await footerImg.getAttribute('src');
