@@ -1,14 +1,36 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 
-import { RouterView } from 'vue-router';
+import { RouterLink, RouterView } from 'vue-router';
+import { useQuasar } from 'quasar';
 
 import NavMenu from '@/components/NavMenu.vue';
+import logo from '@/assets/logo.svg';
 
 const leftDrawerOpen = ref(true);
 
 const toggleLeftDrawer = () => {
 	leftDrawerOpen.value = !leftDrawerOpen.value;
+};
+
+const $q = useQuasar();
+
+const subscribeEmail = ref('');
+
+const emailRules = [
+	(val: string) => (val && val.length > 0) || 'Please type your email',
+	(val: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || 'Please type a valid email',
+];
+
+const onSubscribeSubmit = () => {
+	$q.notify({
+		message: 'Subscribed successfully',
+		type: 'positive',
+		position: 'top',
+		timeout: 1000,
+	});
+
+	subscribeEmail.value = '';
 };
 </script>
 
@@ -36,14 +58,32 @@ const toggleLeftDrawer = () => {
 			<RouterView />
 		</QPageContainer>
 
-		<!-- <QFooter elevated class="bg-grey-8 text-white">
+		<QFooter elevated class="bg-grey-8 text-white">
 			<QToolbar>
 				<QToolbarTitle>
-					<QAvatar>
-						<img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-					</QAvatar>
+					<RouterLink to="/">
+						<QAvatar>
+							<img :src="logo" />
+						</QAvatar>
+					</RouterLink>
 				</QToolbarTitle>
+
+				<QForm class="row items-start q-gutter-sm" @submit="onSubscribeSubmit">
+					<QInput
+						dark
+						dense
+						filled
+						type="email"
+						v-model="subscribeEmail"
+						label="Subscribe to our newsletter"
+						style="min-width: 260px"
+						lazy-rules
+						:rules="emailRules"
+					/>
+
+					<QBtn label="Subscribe" type="submit" color="primary" />
+				</QForm>
 			</QToolbar>
-		</QFooter> -->
+		</QFooter>
 	</QLayout>
 </template>
