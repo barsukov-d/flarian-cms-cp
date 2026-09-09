@@ -56,9 +56,10 @@ const onSubscribeSubmit = () => {
 
 				<QToolbarTitle>
 					<QAvatar>
-						<img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+						<img :src="logo" />
 					</QAvatar>
-					Title
+					Flarian CMS
+					<QBadge color="grey-8" class="q-ml-sm">v1.0</QBadge>
 				</QToolbarTitle>
 
 				<QSpace />

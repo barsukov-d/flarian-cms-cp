@@ -27,6 +27,11 @@ const navMenuItems = ref([
 		icon: 'person',
 		link: '/profile',
 	},
+	{
+		name: 'About',
+		icon: 'info',
+		link: '/about',
+	},
 ]);
 </script>
 <template>
