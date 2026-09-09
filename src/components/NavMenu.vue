@@ -22,6 +22,11 @@ const navMenuItems = ref([
 		icon: 'info',
 		link: '/media-library',
 	},
+	{
+		name: 'About',
+		icon: 'info',
+		link: '/about',
+	},
 ]);
 </script>
 <template>
