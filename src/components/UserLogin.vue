@@ -62,6 +62,7 @@ watch(data, (value) => {
 		// localStorage.setItem('accessToken', value.accessToken);
 		document.cookie = `jwtToken=${value.accessToken}; path=/;`;
 		OpenAPI.TOKEN = value.accessToken || '123';
+		localStorage.setItem('userEmail', formData.value.login);
 	}
 });
 </script>

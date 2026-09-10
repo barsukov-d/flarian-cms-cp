@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterLink, RouterView, useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
+import { OpenAPI } from '@/http-client';
 
 import NavMenu from '@/components/NavMenu.vue';
 import logo from '@/assets/logo.svg';
@@ -14,6 +15,19 @@ const toggleLeftDrawer = () => {
 };
 
 const $q = useQuasar();
+
+const router = useRouter();
+
+const goToProfile = () => {
+	router.push('/profile');
+};
+
+const onLogout = () => {
+	document.cookie = 'jwtToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+	OpenAPI.TOKEN = undefined;
+	localStorage.removeItem('userEmail');
+	router.push('/login');
+};
 
 const subscribeEmail = ref('');
 
@@ -47,6 +61,21 @@ const onSubscribeSubmit = () => {
 					Flarian CMS
 					<QBadge color="grey-8" class="q-ml-sm">v1.0</QBadge>
 				</QToolbarTitle>
+
+				<QSpace />
+
+				<QBtn dense flat round icon="account_circle">
+					<QMenu>
+						<QList>
+							<QItem clickable v-close-popup @click="goToProfile">
+								<QItemSection>Profile</QItemSection>
+							</QItem>
+							<QItem clickable v-close-popup @click="onLogout">
+								<QItemSection>Log out</QItemSection>
+							</QItem>
+						</QList>
+					</QMenu>
+				</QBtn>
 			</QToolbar>
 		</QHeader>
 

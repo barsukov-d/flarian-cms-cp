@@ -23,6 +23,11 @@ const navMenuItems = ref([
 		link: '/media-library',
 	},
 	{
+		name: 'Profile',
+		icon: 'person',
+		link: '/profile',
+	},
+	{
 		name: 'About',
 		icon: 'info',
 		link: '/about',
@@ -38,6 +43,9 @@ const navMenuItems = ref([
 			v-ripple
 			:to="item.link"
 		>
+			<QItemSection avatar>
+				<QIcon :name="item.icon" />
+			</QItemSection>
 			<QItemSection>{{ item.name }}</QItemSection>
 		</QItem>
 	</QList>
