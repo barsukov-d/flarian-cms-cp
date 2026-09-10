@@ -1,0 +1,11 @@
+services:
+  backend:
+    build: .
+    ports:
+      - '3031:3031'
+    volumes:
+      - backend-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  backend-data:
